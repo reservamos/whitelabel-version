@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Deploy status (Beta)</title>
+    <link rel="stylesheet" href="./assets/css/style.css" />
+  </head>
+  <body>
+    <div class="logo-container">
+      <img class="logo" src="./assets/img/reservamos-logo.png" />
+    </div>
+
+    <h3>Frontend webapps</h3>
+
+    <script src="./utils.js"></script>
+    <script>
+      /*
+       * This are the urls to get apps version
+       */
+      const apps = [
+        {
+          name: "whitelabel-funnel",
+          urls: [
+            "https://brasilia-funnel-production.herokuapp.com/version",
+            "https://costaline-funnel-production.herokuapp.com/version",
+            "https://etn-funnel-production.herokuapp.com/version",
+            "https://gfa-funnel-production.herokuapp.com/version",
+            "https://gho-funnel-production.herokuapp.com/version",
+            "https://ochoa-funnel-production.herokuapp.com/version",
+          ],
+        },
+        {
+          name: "whitelabel-funnel (sandbox)",
+          urls: [
+            "https://brasilia-funnel-sandbox.herokuapp.com/version",
+            "https://costaline-funnel-sandbox.herokuapp.com/version",
+            "https://etn-funnel-sandbox.herokuapp.com/version",
+            "https://gfa-funnel-sandbox.herokuapp.com/version",
+            "https://gho-funnel-sandbox.herokuapp.com/version",
+            "https://ochoa-funnel-sandbox.herokuapp.com/version",
+          ],
+        },
+      ];
+
+      /*
+       * Init request
+       */
+      requestVersion();
+    </script>
+  </body>
+</html>
