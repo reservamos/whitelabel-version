@@ -19,7 +19,7 @@ var getJSON = function (url, callback) {
 /*
  * Generates an html Table tag with data
  */
-function loadToTable(id, tableData) {
+function loadToTable({ id, tableData }) {
   if (tableData.length <= 1) return;
   const table = document.createElement("table");
   const tableBody = document.createElement("tbody");
@@ -36,7 +36,13 @@ function loadToTable(id, tableData) {
         div = cell.appendChild(document.createElement("div"));
         div.className = "active";
       } else {
-        cell.appendChild(document.createTextNode(cellData));
+        let el = document.createTextNode(cellData);
+        if (typeof cellData === "object") {
+          el = document.createElement("a");
+          el.href = cellData.repoUrl;
+          el.appendChild(document.createTextNode(cellData.label));
+        }
+        cell.appendChild(el);
       }
       row.appendChild(cell);
     });
@@ -56,9 +62,13 @@ function loadToTable(id, tableData) {
 /*
  * This function prepares data into an array readable to convert as a Table
  */
-const prepareData = (data, versions) => {
+const prepareData = (data, versions, repoUrl) => {
   let newData = [];
-  const header = ["APP", ...versions.sort()];
+  const formattedVersions = versions.sort().map((v) => ({
+    label: v,
+    repoUrl: `${repoUrl}/releases/tag/v${v}`,
+  }));
+  const header = ["APP", ...formattedVersions];
   newData.unshift(header);
 
   data.forEach(({ name, version }) => {
@@ -78,7 +88,7 @@ const prepareData = (data, versions) => {
 };
 
 const requestVersion = async () => {
-  apps.forEach(async ({ name, urls }) => {
+  apps.forEach(async ({ name, urls, repoUrl }) => {
     let versions = [];
     let data = [];
 
@@ -99,6 +109,6 @@ const requestVersion = async () => {
           .catch((error) => console.error("Fallo", error));
       })
     );
-    loadToTable(name, prepareData(data, versions));
+    loadToTable({ id: name, tableData: prepareData(data, versions, repoUrl) });
   });
 };
