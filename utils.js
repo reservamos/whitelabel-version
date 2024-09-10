@@ -1,3 +1,5 @@
+const GITHUB_TOKEN =
+  "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";
 /*
  * getJson makes an http request and retrieves a json
  */
@@ -40,6 +42,7 @@ function loadToTable({ id, tableData }) {
         if (typeof cellData === "object") {
           el = document.createElement("a");
           el.href = cellData.repoUrl;
+          el.setAttribute("target", "_blank");
           el.appendChild(document.createTextNode(cellData.label));
         }
         cell.appendChild(el);
@@ -64,10 +67,13 @@ function loadToTable({ id, tableData }) {
  */
 const prepareData = (data, versions, repoUrl) => {
   let newData = [];
-  const formattedVersions = versions.sort().map((v) => ({
-    label: v,
-    repoUrl: `${repoUrl}/releases/tag/v${v}`,
-  }));
+  const formattedVersions = versions.sort().map((v) => {
+    if (!repoUrl) return v;
+    return {
+      label: v,
+      repoUrl: `${repoUrl}/releases/tag/v${v}`,
+    };
+  });
   const header = ["APP", ...formattedVersions];
   newData.unshift(header);
 
@@ -87,8 +93,47 @@ const prepareData = (data, versions, repoUrl) => {
   return newData;
 };
 
+const loadChangelog = async ({ appName, versions, repoUrl }) => {
+  if (!repoUrl) return;
+  const changelog = document.createElement("div");
+  changelog.id = `${appName}-changelog`;
+  changelog.className = "changelog";
+  changelog.innerHTML = `<h1>${appName} changelog</h1>`;
+  for (const v of versions.sort().reverse()) {
+    const version = document.createElement("div");
+    version.className = "version";
+    version.innerHTML = `<h2>${v}</h2>`;
+    const content = document.createElement("div");
+    content.className = "content";
+    const url = `https://api.github.com/repos/reservamos/${appName}/releases/tags/v${v}`;
+
+    try {
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${GITHUB_TOKEN}`,
+        },
+        method: "GET",
+      });
+      if (response?.ok) {
+        const { body } = await response.json();
+        content.innerHTML = body;
+      }
+      const goToUrl = document.createElement("a");
+      goToUrl.setAttribute("target", "_blank");
+      goToUrl.href = `${repoUrl}/releases/tag/v${v}`;
+      goToUrl.innerHTML = "Go to release";
+      content.appendChild(goToUrl);
+      changelog.appendChild(version);
+      changelog.appendChild(content);
+    } catch (error) {
+      console.error("Error", error);
+    }
+  }
+  document.body.appendChild(changelog);
+};
+
 const requestVersion = async () => {
-  apps.forEach(async ({ name, urls, repoUrl }) => {
+  for (const { name, urls, repoUrl, appName } of apps) {
     let versions = [];
     let data = [];
 
@@ -97,7 +142,7 @@ const requestVersion = async () => {
         /*
          * Prepares data and version
          */
-        const processVersion = ({ status, body }) => {
+        const processVersion = ({ body }) => {
           const { name, version } = body;
           if (!versions.find((v) => v === version)) versions.push(version);
           data.push({ name, version });
@@ -106,9 +151,11 @@ const requestVersion = async () => {
         return fetch(url)
           .then((res) => res.json())
           .then(processVersion)
-          .catch((error) => console.error("Fallo", error));
+          .catch((error) => console.error("Error", error));
       })
     );
-    loadToTable({ id: name, tableData: prepareData(data, versions, repoUrl) });
-  });
+    const tableData = prepareData(data, versions, repoUrl);
+    await loadChangelog({ appName, versions, repoUrl });
+    loadToTable({ id: name, tableData });
+  }
 };
