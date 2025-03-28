@@ -1,70 +1,73 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Deploy status (Beta)</title>
-    <link rel="stylesheet" href="./assets/css/style.css" />
-  </head>
-  <body>
-    <div class="logo-container">
-      <img class="logo" src="./assets/img/reservamos-logo.png" />
-    </div>
 
-    <h3>Frontend webapps</h3>
+<head>
+  <title>Deploy status (Beta)</title>
+  <link rel="stylesheet" href="./assets/css/style.css" />
+</head>
 
-    <script src="./utils.js"></script>
-    <script>
-      /*
-       * This are the urls to get apps version
-       */
-      const apps = [
-        {
-          name: "e-commerce funnel",
-          appName: "platform-funnel",
-          repoUrl: "https://github.com/reservamos/platform-funnel",
-          urls: [
-            "https://viajes.expresobrasilia.com/version",
-            "https://viaje.costaline.com.mx/version",
-            "https://viajes.costaline.com.mx/version",
-            "https://viaje.etn.com.mx/version",
-            "https://viajes.etn.com.mx/version",
-            "https://viaje.primeraplus.com.mx/version",
-            "https://viajes.primeraplus.com.mx/version",
-            "https://viaje.autovias.com.mx/version",
-            "https://viajes.autovias.com.mx/version",
-            "https://viaje.rapidoochoa.com.co/version",
-            "https://viajes.rapidoochoa.com.co/version",
-            "https://viaje.expressotransporte.com.br/version",
-            "https://viaje.berlinasdelfonce.com/version",
-            "https://viajes.roll-bits.com/version",
-            "https://viva.reservamossaas.com/version",
-            "https://viaje.flotamagdalena.com/version",
-            "https://viagem.expressosaoluiz.com.br/version",
-            "https://viajes.rapidosdecolima.com.mx/version",
-            "https://viajes.smilebus.com.mx/version",
-            "https://viagens.satelitenorte.com.br/version",
-            "https://viajes.conectagfa.com.mx/version",
-          ],
-        },
-        {
-          name: "e-commerce funnel (development)",
-          urls: [
-            "https://smilebus-sbx.resertravel.com/version",
-            "https://brasilia-sbx.resertravel.com/version",
-            "https://costaline-sbx.resertravel.com/version",
-            "https://gho-sbx.resertravel.com/version",
-            "https://etn-sbx.resertravel.com/version",
-            "https://gfa-sbx.resertravel.com/version",
-            "https://gfa-qa.resertravel.com/version",
-            "https://gfa-staging.resertravel.com/version",
-            "https://roll-bits-sbx.resertravel.com/version",
-          ],
-        },
-      ];
+<body>
+  <div class="logo-container">
+    <img class="logo" src="./assets/img/reserhub-logo.png" />
+  </div>
 
-      /*
-       * Init request
-       */
-      requestVersion();
-    </script>
-  </body>
+  <h3>Frontend webapps</h3>
+
+  <script src="./utils.js"></script>
+  <script>
+    /*
+     * This are the urls to get apps version
+     */
+    const apps = [
+      {
+        name: "e-commerce funnel",
+        appName: "platform-funnel",
+        repoUrl: "https://github.com/reservamos/platform-funnel",
+        urls: [
+          "https://viajes.expresobrasilia.com/version",
+          "https://viaje.costaline.com.mx/version",
+          "https://viajes.costaline.com.mx/version",
+          "https://viaje.etn.com.mx/version",
+          "https://viajes.etn.com.mx/version",
+          "https://viaje.primeraplus.com.mx/version",
+          "https://viajes.primeraplus.com.mx/version",
+          "https://viaje.autovias.com.mx/version",
+          "https://viajes.autovias.com.mx/version",
+          "https://viaje.rapidoochoa.com.co/version",
+          "https://viajes.rapidoochoa.com.co/version",
+          "https://viaje.expressotransporte.com.br/version",
+          "https://viaje.berlinasdelfonce.com/version",
+          "https://viajes.roll-bits.com/version",
+          "https://viva.reservamossaas.com/version",
+          "https://viaje.flotamagdalena.com/version",
+          "https://viagem.expressosaoluiz.com.br/version",
+          "https://viajes.rapidosdecolima.com.mx/version",
+          "https://viajes.smilebus.com.mx/version",
+          "https://viagens.satelitenorte.com.br/version",
+          "https://viajes.conectagfa.com.mx/version",
+        ],
+      },
+      {
+        name: "e-commerce funnel (development)",
+        urls: [
+          "https://smilebus-sbx.resertravel.com/version",
+          "https://brasilia-sbx.resertravel.com/version",
+          "https://costaline-sbx.resertravel.com/version",
+          "https://gho-sbx.resertravel.com/version",
+          "https://etn-sbx.resertravel.com/version",
+          "https://gfa-sbx.resertravel.com/version",
+          "https://gfa-qa.resertravel.com/version",
+          "https://gfa-staging.resertravel.com/version",
+          "https://roll-bits-sbx.resertravel.com/version",
+        ],
+      },
+    ];
+
+    /*
+     * Init request
+     */
+    requestVersion();
+  </script>
+</body>
+
 </html>
