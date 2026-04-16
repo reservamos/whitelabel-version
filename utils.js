@@ -1,5 +1,3 @@
-const GITHUB_TOKEN =
-  "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";
 /*
  * getJson makes an http request and retrieves a json
  */
@@ -108,12 +106,7 @@ const loadChangelog = async ({ appName, versions, repoUrl }) => {
     const url = `https://api.github.com/repos/reservamos/${appName}/releases/tags/v${v}`;
 
     try {
-      const response = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${GITHUB_TOKEN}`,
-        },
-        method: "GET",
-      });
+      const response = await fetch(url);
       if (response?.ok) {
         const { body } = await response.json();
         content.innerHTML = body;
@@ -143,7 +136,8 @@ const requestVersion = async () => {
          * Prepares data and version
          */
         const processVersion = ({ body }) => {
-          const { name, version } = body;
+          const { version } = body;
+          const name = new URL(url).hostname;
           if (!versions.find((v) => v === version)) versions.push(version);
           data.push({ name, version });
         };
@@ -152,7 +146,7 @@ const requestVersion = async () => {
           .then((res) => res.json())
           .then(processVersion)
           .catch((error) => console.error("Error", error));
-      })
+      }),
     );
     const tableData = prepareData(data, versions, repoUrl);
     await loadChangelog({ appName, versions, repoUrl });
